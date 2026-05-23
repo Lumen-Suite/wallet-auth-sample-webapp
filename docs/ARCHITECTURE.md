@@ -57,11 +57,11 @@ The browser never sees the secret. Even if someone inspects every byte of the Ja
 
 This is the core mechanic of the sample. It's a 10-step dance that happens every time a user signs in.
 
-1. The user opens the app and lands on `/login`. The React page asks the Express server, "give me a BridgePass login URL". This is `POST /api/auth/login-config` with a small body describing which login methods are allowed (Google, Facebook, MetaMask) and where to send the user back (the `RedirectURL` — set to `http://localhost:5173/callback`).
+1. The user opens the app and lands on `/login`. The React page asks the Express server, "give me a BridgePass login URL". This is `POST /api/auth/login-config` with a small body describing which login methods are allowed (Google, Facebook) and where to send the user back (the `RedirectURL` — set to `http://localhost:5173/callback`).
 2. The Express server forwards that request to Lumen, with your API key and secret attached. Lumen replies with a `LoginURL` (a long https link that points at BridgePass) and a `Config` object.
 3. The Express server hands that reply back to the browser.
 4. The React page sets `window.location.href` to the `LoginURL`. The browser leaves your app and lands on the BridgePass page.
-5. On BridgePass, the user picks a login method and completes it (Google sign-in, Facebook sign-in, or MetaMask wallet signature).
+5. On BridgePass, the user picks a login method and completes it (Google sign-in or Facebook sign-in).
 6. BridgePass verifies the result and redirects the browser back to `http://localhost:5173/callback?AuthCode=...`. The `AuthCode` is a short-lived, single-use proof that the user really did finish the login. It expires fast.
 7. The React `/callback` page reads the `AuthCode` from the URL and immediately sends it to the Express server. This is `GET /api/auth/access-token` with the AuthCode in a header called `lumen-authentication-code`.
 8. The Express server forwards that to Lumen. Lumen verifies the AuthCode, marks it as spent, and replies with a `Token` (the session token) plus a `Wallet` object describing the user's wallet.
@@ -139,7 +139,7 @@ Each row below is a possible attack or mistake, and what we did to block it.
 | Cross-origin attacks | CORS (Cross-Origin Resource Sharing) is a browser rule limiting which websites can call your server. We use an allowlist driven by `ALLOWED_ORIGIN`. Methods allowed on `/api` are `GET`, `POST`, and `DELETE` only. |
 | Header injection | We use Helmet (a security middleware) to set a strict Content Security Policy with an explicit `connect-src` allowlist — so the browser refuses to load resources from unexpected places. `frame-ancestors` is `'none'`, so the app can't be embedded in an iframe. |
 | Abuse / runaway scripts | `express-rate-limit` caps `/api/*` at 100 requests per 15 minutes per IP address. If something starts hammering the server, it gets a `429 Too Many Requests` response. |
-| Body fuzzing | Zod (a validation library) checks the body of `POST /api/auth/login-config` against an allowlist (`AllowedLoginMethods` must include at least one of `Wallets:['METAMASK']` or `SocialMedia:['GOOGLE','FACEBOOK']`; `RedirectURL` must be a real URL). Junk values get rejected before the request ever reaches Lumen. |
+| Body fuzzing | Zod (a validation library) checks the body of `POST /api/auth/login-config` against an allowlist (`AllowedLoginMethods.SocialMedia` must be a non-empty array of `"GOOGLE"` and/or `"FACEBOOK"`; `RedirectURL` must be a real URL). Junk values get rejected before the request ever reaches Lumen. |
 | Oversized JSON | `express.json({ limit: '32kb' })` caps the request body at 32 kilobytes. There's nothing in this sample that needs more than that. |
 | Error leakage | Errors from Lumen are normalized into a clean `{ ok, status, error }` shape. Stack traces (which can reveal internal details) never reach the browser. |
 | Token theft via XSS | The session token is stored in **sessionStorage** — per-tab, clears on tab close. We didn't use `localStorage` (which persists forever). We didn't use a cookie (which would need CSRF protection). sessionStorage trades off a little user convenience (each tab logs in separately) for a smaller XSS blast radius. |

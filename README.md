@@ -4,7 +4,7 @@
   <img src="docs/images/lumen-logo.svg" alt="Lumen" width="120" />
 </p>
 
-This is a small, friendly example application that demonstrates the **Lumen BridgePass** sign-in flow from an end-user's perspective. You click "Sign in", you complete the login on the BridgePass page (using Google, Facebook, or MetaMask), the page redirects you back, and you land on a card showing your wallet's info. You do **not** need to know how to code to run it. If you can install a program from a website and edit a text file, you can have this working on your computer in about ten minutes.
+This is a small, friendly example application that demonstrates the **Lumen BridgePass** sign-in flow from an end-user's perspective. You click "Sign in", you complete the login on the BridgePass page (using Google or Facebook), the page redirects you back, and you land on a card showing your wallet's info. You do **not** need to know how to code to run it. If you can install a program from a website and edit a text file, you can have this working on your computer in about ten minutes.
 
 > **What this is for:** Two kinds of people. (1) Developers who want to see how the Lumen BridgePass OAuth flow works end-to-end. (2) Non-coders who want to try out the login experience without writing any code.
 
@@ -103,13 +103,13 @@ Open Chrome (or any browser) and go to:
 
 [http://localhost:5173](http://localhost:5173)
 
-The sign-in page appears. Click **"Continue to BridgePass"**. Complete the login on the BridgePass page (with Google, Facebook, or MetaMask). You'll be sent back to this app automatically, and you'll land on the wallet info card. That's it — you're done.
+The sign-in page appears. Click **"Continue to BridgePass"**. Complete the login on the BridgePass page (with Google or Facebook). You'll be sent back to this app automatically, and you'll land on the wallet info card. That's it — you're done.
 
 ---
 
 ## What you'll see
 
-**Sign-in page** — a card with a short explanation and a row of checkboxes for which login methods you want to allow (Google, Facebook, MetaMask). Pick any combination and click **"Continue to BridgePass"**.
+**Sign-in page** — a card with a short explanation and a row of checkboxes for which login methods you want to allow (Google, Facebook). Pick either or both and click **"Continue to BridgePass"**.
 
 **BridgePass** — a separate page hosted by Lumen, where the actual login happens. You complete it like any social login.
 
