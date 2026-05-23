@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const loginConfigBody = z.object({
   AllowedLoginMethods: z.object({
+    Wallets: z.array(z.enum(['METAMASK'])).default([]),
     SocialMedia: z.array(z.enum(['GOOGLE', 'FACEBOOK'])).min(1),
   }),
   RedirectURL: z.string().url(),
