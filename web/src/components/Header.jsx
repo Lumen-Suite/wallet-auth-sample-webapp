@@ -33,7 +33,7 @@ export default function Header() {
           >
             GitHub
           </a>
-          {token?.token && (
+          {token && (
             <button
               type="button"
               onClick={onSignOut}
