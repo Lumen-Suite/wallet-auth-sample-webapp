@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import Spinner from './Spinner.jsx'
+import lumenLogo from '../assets/lumen.png'
 
 export default function Header() {
   const { token, signingOut, logout } = useAuth()
@@ -15,9 +16,11 @@ export default function Header() {
     <header className="border-b border-lumen-border">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <span className="inline-flex items-center justify-center w-8 h-8 bg-lumen-fg text-lumen-bg font-bold">
-            L
-          </span>
+          <img
+            src={lumenLogo}
+            alt="Lumen"
+            className="inline-flex items-center justify-center w-8 h-8"
+          />
           <span className="font-semibold tracking-tight text-lumen-fg">
             Lumen Wallet Auth
           </span>
@@ -26,14 +29,6 @@ export default function Header() {
           </span>
         </Link>
         <nav className="text-sm flex items-center gap-4">
-          <a
-            href="https://github.com/Bayanichain/wallet-auth-sample-webapp"
-            target="_blank"
-            rel="noreferrer"
-            className="text-lumen-muted hover:text-lumen-fg"
-          >
-            GitHub
-          </a>
           {token && (
             <button
               type="button"
