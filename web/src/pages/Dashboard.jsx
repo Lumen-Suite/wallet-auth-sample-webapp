@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import Spinner from '../components/Spinner.jsx'
 
 function Row({ label, value, mono }) {
   return (
@@ -11,7 +12,7 @@ function Row({ label, value, mono }) {
 }
 
 export default function Dashboard() {
-  const { wallet, expiresAt, logout } = useAuth()
+  const { wallet, expiresAt, signingOut, logout } = useAuth()
   const navigate = useNavigate()
 
   const onSignOut = async () => {
@@ -32,9 +33,10 @@ export default function Dashboard() {
         <button
           type="button"
           onClick={onSignOut}
-          className="border border-lumen-fg px-4 py-2 text-sm hover:bg-lumen-fg hover:text-lumen-bg"
+          disabled={signingOut}
+          className="border border-lumen-fg px-4 py-2 text-sm hover:bg-lumen-fg hover:text-lumen-bg disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Sign out
+          {signingOut ? <Spinner inline label="Signing out..." /> : 'Sign out'}
         </button>
       </header>
 
