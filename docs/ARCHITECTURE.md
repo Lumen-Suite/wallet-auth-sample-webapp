@@ -13,7 +13,7 @@ This page explains how the sample app is put together and why each piece exists.
 ```
 +--------------------+       +----------------------+       +-----------------------+
 |  Browser (5173)    |  -->  |  Express BFF (8787)  |  -->  |  Lumen Wallet API     |
-|  Vite + React JSX  |       |  thin proxy          |       |  (Azure Container App)|
+|  Vite + React JSX  |       |  thin proxy          |       |  (hosted on AWS)      |
 |  Tailwind 4        |       |  + helmet + CORS     |       |                       |
 |                    |       |  + rate limit        |       |  4 auth endpoints     |
 |  sessionStorage:   |       |  + Zod body check    |       |  (Custodial)          |
@@ -32,7 +32,7 @@ There are three boxes plus one detour:
 
 1. **The browser part** (the React app at `http://localhost:5173`). This is what you see and click on.
 2. **The local Express server** at `http://localhost:8787`. A small program running on your computer that acts as a middleman.
-3. **The Lumen Wallet API** out on the internet (hosted in Azure). The real source of authentication and wallet data.
+3. **The Lumen Wallet API** out on the internet (hosted on AWS). The real source of authentication and wallet data.
 4. **BridgePass** — a separate page hosted by Lumen where the actual login happens. The browser visits it directly during the OAuth flow.
 
 Both halves of your local app read from a single `.env` settings file at the project root.

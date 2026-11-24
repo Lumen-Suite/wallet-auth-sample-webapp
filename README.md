@@ -129,7 +129,7 @@ The sign-in page appears. Click **"Continue to BridgePass"**. Complete the login
 
 ```
 Your browser  ->  Local Express server  ->  Lumen Wallet API
-   :5173             :8787                   (Azure cloud)
+   :5173             :8787                   (AWS cloud)
                                               ^
                                               |
                 Your browser  <->  BridgePass page  (for the OAuth redirect)
